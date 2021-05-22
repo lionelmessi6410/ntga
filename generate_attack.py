@@ -30,7 +30,7 @@ parser.add_argument("--cuda_visible_devices", default="0", type=str, help="speci
                     an application on")
 
 args = parser.parse_args()
-os.environ["CUDA_VISIBLE_DEVICES"]=args.cuda_visible_devices
+os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda_visible_devices
 
 if args.model_type == "fnn":
     flatten = True
