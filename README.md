@@ -5,8 +5,8 @@
 | [**Quickstart**](#Usage)
 | [**Unlearnable Datasets**](#unlearnable-datasets)
 
-![Last Commit](https://img.shields.io/github/last-commit/lionelmessi6410/Neural-Tangent-Generalization-Attacks?color=red)
-[![License](https://img.shields.io/github/license/lionelmessi6410/Neural-Tangent-Generalization-Attacks)](https://github.com/lionelmessi6410/Neural-Tangent-Generalization-Attacks/blob/main/LICENSE)
+![Last Commit](https://img.shields.io/github/last-commit/lionelmessi6410/ntga?color=red)
+[![License](https://img.shields.io/github/license/lionelmessi6410/ntga)](https://github.com/lionelmessi6410/ntga/blob/main/LICENSE)
 
 # Overview
 This is the repo for [Neural Tangent Generalization Attacks](), Chia-Hung Yuan and Shan-Hung Wu, In Proceedings of ICML 2021.
