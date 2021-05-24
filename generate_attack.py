@@ -21,11 +21,11 @@ parser.add_argument("--dataset", required=True, type=str, help="dataset. `mnist`
                     are available. For ImageNet or other dataset, please modify the path in the code directly.")
 parser.add_argument("--val_size", default=10000, type=int, help="size of validation data")
 parser.add_argument("--t", default=64, type=int, help="time step used to compute poisoned data")
-parser.add_argument("--eps", required=True, type=float, help="epsilon. Strength of NTGA")
+parser.add_argument("--eps", type=float, help="epsilon. Strength of NTGA")
 parser.add_argument("--nb_iter", default=10, type=int, help="number of iteration used to generate poisoned data")
 parser.add_argument("--block_size", default=512, type=int, help="block size of B-NTGA")
 parser.add_argument("--batch_size", default=30, type=int, help="batch size")
-parser.add_argument("--save_path", default="", type=str, help="path to save figures")
+parser.add_argument("--save_path", default="", type=str, help="path to save poisoned data")
 parser.add_argument("--cuda_visible_devices", default="0", type=str, help="specify which GPU to run \
                     an application on")
 
@@ -41,12 +41,15 @@ else:
 if args.dataset == "mnist":
     num_classes = 10
     train_size = 60000 - args.val_size
+    args.eps = 0.3
 elif args.dataset == "cifar10":
     num_classes = 10
     train_size = 50000 - args.val_size
+    args.eps = 8/255
 elif args.dataset == "imagenet":
     num_classes = 2
     train_size = 2220
+    args.eps = 0.1
     print("For ImageNet, please specify the file path manually.")
 else:
     raise ValueError("To load custom dataset, please modify the code directly.")
