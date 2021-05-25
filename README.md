@@ -37,11 +37,11 @@ If you only want to examine the effectiveness of NTGAs, you can download dataset
 To generate poisoned data by NTGA, run
 
 ```bash
-python generate_attack.py --model_type fnn --dataset mnist
+python generate_attack.py --model_type fnn --dataset cifar10 --save_path ./data/
 ```
 
 There are few important arguments:
-- `--model_type`: A string. Surrogate model used to craft poisoned data. One of `fnn` or `cnn`.
+- `--model_type`: A string. Surrogate model used to craft poisoned data. One of `fnn` or `cnn`. `fnn` and `cnn` stands for the fully-connected and convolutional networks, respectively.
 - `--dataset`: A string. One of `mnist`, `cifar10`, or `imagenet`. 
 - `--t`: An integer. Time step used to craft poisoned data. Please refer to main paper for more details.
 - `--eps`: A float. Strength of NTGA. The default settings for MNIST, CIFAR-10, and ImageNet are `0.3`, `8/255`, and `0.1`, respectively.
@@ -50,12 +50,61 @@ There are few important arguments:
 - `--batch_size`: An integer.
 - `--save_path`: A string.
 
-Both `eps` and `block_size` influence the effectiveness of NTGA. Larger `eps` leads to stronger but more distinguishable perturbations, while larger `block_size` results in better collaborative effect in NTGA but also induces both higher time and space complexities. If you encounter out-of-memory (OOM) errors, please try to reduce `block_size` and `batch_size` to save memory usage.
+In general, the attacks based on the FNN surrogate have greater influence against the fully-connected target networks, while the attacks based on the CNN surrogate work better against the convolutional target networks. Both `eps` and `block_size` influence the effectiveness of NTGA. Larger `eps` leads to stronger but more distinguishable perturbations, while larger `block_size` results in better collaborative effect (stronger attack) in NTGA but also induces both higher time and space complexities. If you encounter out-of-memory (OOM) errors, especially when using `--model_type cnn`, please try to reduce `block_size` and `batch_size` to save memory usage. The CNN surrogate takes more time and space to generate attacks, compared with the FNN surrogate under the same settings.
 
 For ImageNet or another custom dataset, please specify the path to the dataset in the code directly. For more details, please call `python evaluate.py -h`.
 
 ### Evaluation
-To reproduce the results in our paper, you can run
+Next, you can examine the effectiveness of the poisoned data crafted by NTGA by calling
+
+```bash
+python evaluate.py --model_type densenet121 --dataset cifar10 --dtype NTGA --x_train_path ./path/to/poisoned/data --y_train_path ./path/to/labels --batch_size 128 --save_path ./figures/
+```
+
+If you are interested in the performance on the clean data, run
+```bash
+python evaluate.py --model_type densenet121 --dataset cifar10 --dtype Clean --epoch 200 --batch_size 128 --save_path ./figures/
+```
+
+This code will also record and plot the learning curve. The following example is the
+
+<table border=0 >
+	<tbody>
+    <tr>
+    	<tr>
+			<td align="center"> Target class: King Snake (56) </td>
+			<td align="center"> Target class: Mastiff (243) </td>
+		</tr>
+		<tr>
+			<td width="27%" > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.pdf"> </td>
+			<td width="27%"> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.pdf"> </td>
+		</tr>
+	</tbody>
+</table>
+
+There are few important arguments:
+parser = argparse.ArgumentParser(description="Evaluate and plot the learning curve!")
+parser.add_argument("--model_type", required=True, type=str, help="Available target model:\n\
+                    `fnn`, `fnn_relu`, `cnn`, `resnet18`, `resnet34`, or `densenet121`")
+parser.add_argument("--dataset", required=True, type=str, help="clean dataset. `mnist`, `cifar10`, \
+                    and `imagenet` are available. To use different dataset, please modify the path \
+                    in the code directly")
+parser.add_argument("--dtype", required=True, type=str, help="`Clean` or `NTGA`, used for figure's title")
+parser.add_argument("--x_train_path", default=None, type=str, help="path for training data. Leave it empty \
+                    to evaluate the performance on clean data(mnist or cifar10)")
+parser.add_argument("--y_train_path", default=None, type=str, help="path for training labels. Leave it empty \
+                    to evaluate the performance on clean data(mnist or cifar10)")
+parser.add_argument("--x_test_path", default=None, type=str, help="path for testing data. Please specify \
+                    the path for the ImageNet dataset")
+parser.add_argument("--y_test_path", default=None, type=str, help="path for testing label. Please specify \
+                    the path for the ImageNet dataset")
+parser.add_argument("--epoch", default=50, type=int, help="training epochs")
+parser.add_argument("--batch_size", default=64, type=int, help="batch size")
+parser.add_argument("--save_path", default="", type=str, help="path to save figures")
+parser.add_argument("--cuda_visible_devices", default="0", type=str, help="specify which GPU to run \
+                    an application on")
+
+
 
 
 ### Visualization
@@ -64,8 +113,6 @@ To reproduce the results in our paper, you can run
 <!-- # Generate NTGA Attack
 python generate_attack.py --model_type cnn --dataset mnist --eps 0.3 --save_path ./data/
 python generate_attack.py --model_type fnn --dataset cifar10 --eps 0.032 --save_path ./data/
-
-python generate_attack.py --model_type fnn --dataset mnist --eps 0.3 --save_path ./data/
 
 # Evaluate
 python evaluate.py --model_type fnn_relu --dataset mnist --dtype Clean --save_path ./figure/
