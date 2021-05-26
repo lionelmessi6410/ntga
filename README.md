@@ -52,7 +52,7 @@ There are few important arguments:
 - `--batch_size`: An integer.
 - `--save_path`: A string.
 
-In general, the attacks based on the FNN surrogate have greater influence against the fully-connected target networks, while the attacks based on the CNN surrogate work better against the convolutional target networks. Both `eps` and `block_size` influence the effectiveness of NTGA. Larger `eps` leads to stronger but more distinguishable perturbations, while larger `block_size` results in better collaborative effect (stronger attack) in NTGA but also induces both higher time and space complexities. If you encounter out-of-memory (OOM) errors, especially when using `--model_type cnn`, please try to reduce `block_size` and `batch_size` to save memory usage. The CNN surrogate takes more time and space to generate attacks, compared with the FNN surrogate under the same settings.
+In general, the attacks based on the FNN surrogate have greater influence against the fully-connected target networks, while the attacks based on the CNN surrogate work better against the convolutional target networks. Both `eps` and `block_size` influence the effectiveness of NTGA. Larger `eps` leads to stronger but more distinguishable perturbations, while larger `block_size` results in better collaborative effect (stronger attack) in NTGA but also induces both higher time and space complexities. If you encounter out-of-memory (OOM) errors, especially when using `--model_type cnn`, please try to reduce `block_size` and `batch_size` to save memory usage since the CNN surrogate takes more time and space to generate attacks, compared with the FNN surrogate under the same settings.
 
 For ImageNet or another custom dataset, please specify the path to the dataset in the code directly. The original clean data and the poisoned ones crafted by NTGA can be found and downloaded in [Unlearnable Datasets](#unlearnable-datasets).
 
@@ -65,7 +65,7 @@ python evaluate.py --model_type densenet121 --dataset cifar10 --dtype NTGA --x_t
 
 If you are interested in the performance on the clean data, run
 ```bash
-python evaluate.py --model_type densenet121 --dataset cifar10 --dtype Clean --epoch 200 --batch_size 128 --save_path ./figures/
+python evaluate.py --model_type densenet121 --dataset cifar10 --dtype Clean --batch_size 128 --save_path ./figures/
 ```
 
 This code will also plot the learning curve and save it in `--save_path ./figures/`. The following figures show the results of [DenseNet121](https://arxiv.org/pdf/1608.06993.pdf) trained on the CIFAR-10 dataset. The left figure demonstrates the normal learning curve, where the network is trained on the clean data. On the contrary, the figure on the right-hand side shows the remarkable result of NTGA, where the training accuracy is \~100%, but the model fails to generalize.
@@ -112,24 +112,17 @@ The perturbations are nearly invisible. The only difference between the clean an
 
 There are few important arguments:
 - `--dataset`: A string. One of `mnist`, `cifar10`, or `imagenet`.
-- `--x_train_path`: A string. Path for clean training data. Leave it empty for clean data (mnist or cifar10).
-- `--x_train_ntga_path`: A string. Path for poisoned training data. Leave it empty for clean data (mnist or cifar10).
-- `--num`: An integer. Number of data to be visualized. The valid value is 1-5.")
+- `--x_train_path`: A string. Path for clean training data.
+- `--x_train_ntga_path`: A string. Path for poisoned training data.
+- `--num`: An integer. Number of data to be visualized. The valid value is 1-5.
 - `--save_path`: A string.
 
 ## Results
-Here we briefly report the performance of NTGA and some baselines. Please see the [main paper]() for more complete results.
+Here we briefly report the performance of NTGA and some baselines with the FNN and CNN surrogate, respectively. As we can see, NTGA attack has remarkable transferability across a wide range of models, including Fully-connected Networks (FNNs) and Convolutional Neural Networks (CNNs), trained under various conditions regarding the optimization method, loss function, etc. Please see the [main paper]() for more complete results.
+
 ### FNN Surrogate
 <table border=0>
 	<thead>
-		<!-- <tr>
-			<th align="left" width="20%">Target\Attack</th>
-			<th align="center" width="16%">Clean</th>
-			<td align="center" width="16%"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
-			<td align="center" width="16%"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
-			<th align="center" width="16%">NTGA(1)</th>
-			<th align="center" width="16%">NTGA(best)</th>
-		</tr> -->
 		<tr>
 			<th align="left" width="200px">Target\Attack</th>
 			<th align="center" width="160px">Clean</th>
