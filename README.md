@@ -69,10 +69,10 @@ python evaluate.py --model_type densenet121 --dataset cifar10 --dtype Clean --ep
 
 This code will also plot the learning curve and save it in `--save_path ./figures/`. The following figures show the results of [DenseNet121](https://arxiv.org/pdf/1608.06993.pdf) trained on the CIFAR-10 dataset. The left figure demonstrate the normal learning curve, where the network is trained on the clean data. On the contrary, the figure on the right-hand side shows the remarkable result of NTGA, where the training accuracy is \~100%, but the model fails to generalize.
 
-<table border=0 >
+<table border=0>
 	<tbody>
 		<tr>
-			<td width=10% > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
+			<td width=50% > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
 			<td width=50%> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.png"> </td>
 		</tr>
 	</tbody>
@@ -119,15 +119,23 @@ There are few important arguments:
 ## Results
 Here we briefly report the performance of NTGA and some baselines. Please see the [main paper]() for a more complete results.
 ### FNN Surrogate
-<table>
+<table border=0>
 	<thead>
-		<tr>
+		<!-- <tr>
 			<th align="left" width="20%">Target\Attack</th>
 			<th align="center" width="16%">Clean</th>
 			<td align="center" width="16%"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
 			<td align="center" width="16%"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
 			<th align="center" width="16%">NTGA(1)</th>
 			<th align="center" width="16%">NTGA(best)</th>
+		</tr> -->
+		<tr>
+			<th align="left" style="width:20%">Target\Attack</th>
+			<th align="center" style="width:16%">Clean</th>
+			<td align="center" style="width:16%"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
+			<td align="center" style="width:16%"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
+			<th align="center" style="width:16%">NTGA(1)</th>
+			<th align="center" style="width:16%">NTGA(best)</th>
 		</tr>
 	</thead>
 	<tbody>
