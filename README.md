@@ -72,10 +72,8 @@ This code will also plot the learning curve and save it in `--save_path ./figure
 <table border=0 >
 	<tbody>
 		<tr>
-			<tr>
-				<td width=50% > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
-				<td width=50%> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.png"> </td>
-			</tr>
+			<td width=10% > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
+			<td width=50%> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.png"> </td>
 		</tr>
 	</tbody>
 </table>
@@ -137,30 +135,30 @@ Here we briefly report the performance of NTGA and some baselines. Please see th
 			<th align="left" colspan=6>Dataset: MNIST</th>
 		</tr>
 		<tr>
-			<td align="left" width="16%">FNN</td>
-			<td align="center" width="16%">96.26</td>
-			<td align="center" width="16%">74.23</td>
-			<td align="center" width="16%">-</td>
-			<td align="center" width="16%">3.95</td>
-			<td align="center" width="16%"><b>2.57</b></td>
+			<td align="left">FNN</td>
+			<td align="center">96.26</td>
+			<td align="center">74.23</td>
+			<td align="center">-</td>
+			<td align="center">3.95</td>
+			<td align="center"><b>2.57</b></td>
 		</tr>
 		<tr>
-			<td align="left" width="16%">FNN-ReLU</td>
-			<td align="center" width="16%">97.87</td>
-			<td align="center" width="16%">84.62</td>
-			<td align="center" width="16%">-</td>
-			<td align="center" width="16%"><b>2.08</b></td>
-			<td align="center" width="16%">2.18</td>
+			<td align="left">FNN-ReLU</td>
+			<td align="center">97.87</td>
+			<td align="center">84.62</td>
+			<td align="center">-</td>
+			<td align="center"><b>2.08</b></td>
+			<td align="center">2.18</td>
 		</tr>
 		<tr>
-			<td align="left" width="16%">CNN</td>
-			<td align="center" width="16%">99.49</td>
-			<td align="center" width="16%">86.99</td>
-			<td align="center" width="16%">-</td>
-			<td align="center" width="16%">33.80</td>
-			<td align="center" width="16%"><b>26.03</b></td>
+			<td align="left">CNN</td>
+			<td align="center">99.49</td>
+			<td align="center">86.99</td>
+			<td align="center">-</td>
+			<td align="center">33.80</td>
+			<td align="center"><b>26.03</b></td>
 		</tr>
-		<!-- <tr>
+		<tr>
 			<th align="left" colspan=6>Dataset: CIFAR-10</th>
 		</tr>
 		<tr>
@@ -245,7 +243,7 @@ Here we briefly report the performance of NTGA and some baselines. Please see th
 			<td align="center">-</td>
 			<td align="center"><b>72.80</b></td>
 			<td align="center"><b>72.80</b></td>
-		</tr> -->
+		</tr>
 	</tbody>
 </table>
 
