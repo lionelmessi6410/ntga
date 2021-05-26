@@ -130,12 +130,12 @@ Here we briefly report the performance of NTGA and some baselines. Please see th
 			<th align="center" width="16%">NTGA(best)</th>
 		</tr> -->
 		<tr>
-			<th align="left" style="width:20%">Target\Attack</th>
-			<th align="center" style="width:16%">Clean</th>
-			<td align="center" style="width:16%"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
-			<td align="center" style="width:16%"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
-			<th align="center" style="width:16%">NTGA(1)</th>
-			<th align="center" style="width:16%">NTGA(best)</th>
+			<th align="left" width="200px">Target\Attack</th>
+			<th align="center" width="160px">Clean</th>
+			<td align="center" width="160px"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
+			<td align="center" width="160px"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
+			<th align="center" width="160px">NTGA(1)</th>
+			<th align="center" width="160px">NTGA(best)</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -259,12 +259,12 @@ Here we briefly report the performance of NTGA and some baselines. Please see th
 <table>
 	<thead>
 		<tr>
-			<th align="left" width="20%">Target\Attack</th>
-			<th align="center" width="16%">Clean</th>
-			<td align="center" width="16%"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
-			<td align="center" width="16%"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
-			<th align="center" width="16%">NTGA(1)</th>
-			<th align="center" width="16%">NTGA(best)</th>
+			<th align="left" width="200px">Target\Attack</th>
+			<th align="center" width="160px">Clean</th>
+			<td align="center" width="160px"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
+			<td align="center" width="160px"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
+			<th align="center" width="160px">NTGA(1)</th>
+			<th align="center" width="160px">NTGA(best)</th>
 		</tr>
 	</thead>
 	<tbody>
