@@ -73,8 +73,8 @@ This code will also plot the learning curve and save it in `--save_path ./figure
 	<tbody>
 		<tr>
 			<tr>
-				<td width="50%" > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
-				<td width="50%"> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.png"> </td>
+				<td width=50% > <img src="./figures/figure_cifar10_accuracy_densenet121_clean.png"> </td>
+				<td width=50%> <img src="./figures/figure_cifar10_accuracy_densenet121_ntga.png"> </td>
 			</tr>
 		</tr>
 	</tbody>
@@ -124,12 +124,12 @@ Here we briefly report the performance of NTGA and some baselines. Please see th
 <table>
 	<thead>
 		<tr>
-			<th align="left">Target\Attack</th>
-			<th align="center">Clean</th>
-			<td align="center"><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
-			<td align="center"><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
-			<th align="center">NTGA(1)</th>
-			<th align="center">NTGA(best)</th>
+			<th align="left" width=20%>Target\Attack</th>
+			<th align="center" width=16%>Clean</th>
+			<td align="center" width=16%><a href="https://www.mdpi.com/2504-4990/1/1/11/htm" target="_blank"><b>RFA</b></a></td>
+			<td align="center" width=16%><a href="https://proceedings.neurips.cc/paper/2019/file/1ce83e5d4135b07c0b82afffbe2b3436-Paper.pdf" target="_blank"><b>DeepConfuse</b></a></td>
+			<th align="center" width=16%>NTGA(1)</th>
+			<th align="center" width=16%>NTGA(best)</th>
 		</tr>
 	</thead>
 	<tbody>
