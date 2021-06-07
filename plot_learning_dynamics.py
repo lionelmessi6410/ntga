@@ -37,10 +37,10 @@ parser.add_argument("--x_train_path", default=None, type=str, help="path for tra
                     to evaluate the performance on clean data(mnist or cifar10)")
 parser.add_argument("--y_train_path", default=None, type=str, help="path for training labels. Leave it empty \
                     to evaluate the performance on clean data(mnist or cifar10)")
-parser.add_argument("--x_test_path", default=None, type=str, help="path for testing data. Please specify \
-                    the path for the ImageNet dataset")
-parser.add_argument("--y_test_path", default=None, type=str, help="path for testing label. Please specify \
-                    the path for the ImageNet dataset")
+parser.add_argument("--x_val_path", default=None, type=str, help="path for validation data. Please specify \
+                    the path for the poisoned dataset")
+parser.add_argument("--y_val_path", default=None, type=str, help="path for validation label. Please specify \
+                    the path for the poisoned dataset")
 parser.add_argument("--train_size", default=512, type=int, help="size of training data")
 parser.add_argument("--save_path", default="", type=str, help="path to save figures")
 parser.add_argument("--cuda_visible_devices", default="0", type=str, help="specify which GPU to run \
@@ -48,6 +48,7 @@ parser.add_argument("--cuda_visible_devices", default="0", type=str, help="speci
 
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda_visible_devices
+seed = 0
 
 @jit
 @partial(vmap, in_axes=(0, None, None, None, None, None, None, None))
@@ -156,15 +157,16 @@ def main():
         x_train_all = np.load(args.x_train_path)
         x_train_all = x_train_all.reshape(x_train_all.shape[0], -1)
         y_train_all = np.load(args.y_train_path)
-        if args.x_test_path and args.y_test_path:
-            x_test = np.load(args.x_test_path)
-            x_test = x_test.reshape(x_test.shape[0], -1)
-            y_test = np.load(args.y_test_path)
-        else:
-            _, _, x_test, y_test = tuple(np.asarray(x) for x in get_dataset(args.dataset, None, None, flatten=True))
+        x_train_all, y_train_all = shaffle(x_train_all, y_train_all)
+        x_val = np.load(args.x_val_path)
+        x_val = x_val.reshape(x_val.shape[0], -1)
+        y_val = np.load(args.y_val_path)
     else:
-        x_train_all, y_train_all, x_test, y_test = tuple(np.asarray(x) for x in get_dataset(args.dataset, None, None, flatten=True))
-#     x_train_all, y_train_all = shaffle(x_train_all, y_train_all)
+        x_train_all, y_train_all, _, _ = tuple(np.asarray(x) for x in get_dataset(args.dataset, None, None, flatten=True))
+        x_train_all, y_train_all = shaffle(x_train_all, y_train_all)
+        x_val = x_train_all[-10000:]
+        y_val = y_train_all[-10000:]
+        
     x_train = x_train_all[:args.train_size]
     y_train = y_train_all[:args.train_size]
     
@@ -189,7 +191,7 @@ def main():
     layers = np.array([i for i in range(10)] + [10 + 5*i for i in range(20)])
 
     # Train all of the infinite networks.
-    train_acc, test_acc, test_pred = experiment(W_var, b_var, layers, dts, x_train, x_test, y_train, y_test)
+    train_acc, test_acc, test_pred = experiment(W_var, b_var, layers, dts, x_train, x_val, y_train, y_val)
 
     # Rearrange the axes so they go [time, depth, weight_variance].
     train_acc = np.transpose(train_acc, (2, 1, 0))

@@ -28,10 +28,12 @@ parser.add_argument("--x_train_path", default=None, type=str, help="path for tra
                     to evaluate the performance on clean data(mnist or cifar10)")
 parser.add_argument("--y_train_path", default=None, type=str, help="path for training labels. Leave it empty \
                     to evaluate the performance on clean data(mnist or cifar10)")
-parser.add_argument("--x_test_path", default=None, type=str, help="path for testing data. Please specify \
+parser.add_argument("--x_val_path", default=None, type=str, help="path for validation data. Please specify \
                     the path for the ImageNet dataset")
-parser.add_argument("--y_test_path", default=None, type=str, help="path for testing label. Please specify \
+parser.add_argument("--y_val_path", default=None, type=str, help="path for validation label. Please specify \
                     the path for the ImageNet dataset")
+parser.add_argument("--x_test_path", default=None, type=str, help="path for testing data. The ground truth \
+                    (y_test) is hidden. You can submit the prediction to Kaggle competition.")
 parser.add_argument("--epoch", default=50, type=int, help="training epochs")
 parser.add_argument("--batch_size", default=64, type=int, help="batch size")
 parser.add_argument("--save_path", default="", type=str, help="path to save figures")
@@ -40,14 +42,7 @@ parser.add_argument("--cuda_visible_devices", default="0", type=str, help="speci
 
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda_visible_devices
-
-# Enable data augmentation for ResNet and DenseNet
-if args.model_type in ["fnn", "fnn_relu", "cnn"]:
-    lr_schedule = False
-    augment = False
-else:
-    lr_schedule = True
-    augment = True
+seed = 0
 
 if args.dataset == "mnist":
     num_classes = 10
@@ -67,6 +62,13 @@ elif args.dataset == "imagenet":
     lr_sgd = 1e-3
     lr_schedule = 1e-3
 pad_size = int((image_size_aug-image_size)/2)
+
+# Enable data augmentation for ResNet and DenseNet
+if args.model_type in ["fnn", "fnn_relu", "cnn"]:
+    lr_schedule = False
+    augment = False
+else:
+    augment = True
 
 def plot_learning_curve(train_acc, test_acc, ts, metric, dtype, save=True):
     plt.plot(ts, train_acc, label='Train', color=colors[0], linewidth=5)
@@ -167,6 +169,11 @@ class Model():
 
         self.test_loss(t_loss)
         self.test_accuracy(labels, predictions)
+        
+    @tf.function
+    def inference_step(self, images):
+        predictions = self.model(images, training=False)
+        return predictions
     
     def train(self, epoch, train_ds, test_ds):
         train_acc = []
@@ -202,6 +209,15 @@ class Model():
             
         return train_acc, train_l, test_acc, test_l
     
+    def inference(self, test_ds):
+        predictions = []
+        
+        for test_images in test_ds:
+            predictions.append(self.inference_step(test_images).numpy())
+            
+        predictions = onp.concatenate(predictions)
+        return predictions
+    
 def main():
     # Prepare dataset
     print("Loading dataset...")
@@ -217,47 +233,68 @@ def main():
     if args.x_train_path and args.y_train_path:
         x_train = onp.load(args.x_train_path)
         y_train = onp.load(args.y_train_path)
-        if args.x_test_path and args.y_test_path:
-            x_test = onp.load(args.x_test_path)
-            y_test = onp.load(args.y_test_path)
-        else:
-            _, _, x_test, y_test = tuple(onp.asarray(x) for x in get_dataset(args.dataset, None, None))
+        x_val = onp.load(args.x_val_path)
+        y_val = onp.load(args.y_val_path)
     else:
-        x_train_all, y_train_all, x_test, y_test = tuple(onp.asarray(x) for x in get_dataset(args.dataset, None, None))
-        x_train_all, y_train_all = shaffle(x_train_all, y_train_all)
+        x_train_all, y_train_all, _, _ = tuple(onp.asarray(x) for x in get_dataset(args.dataset, None, None))
+        x_train_all, y_train_all = shaffle(x_train_all, y_train_all, seed)
         x_train = x_train_all[:train_size]
         y_train = y_train_all[:train_size]
+        x_val = x_train_all[train_size:]
+        y_val = y_train_all[train_size:]
+        
+    if args.x_test_path:
+        x_test = onp.load(args.x_test_path)
+        
     input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
     
     if args.model_type in ["fnn", "fnn_relu"]:
         # Reshape input data into [width, height, channel] for CNNs
         x_train = x_train.reshape(x_train.shape[0], -1)
-        x_test = x_test.reshape(x_test.shape[0], -1)
+        x_val = x_val.reshape(x_val.shape[0], -1)
+        if args.x_test_path:
+            x_test = x_test.reshape(x_test.shape[0], -1)
         input_shape = (x_train.shape[-1],)
         
     if augment:
         mean = onp.mean(x_train, axis=(0, 1, 2))
         std = onp.std(x_train, axis=(0, 1, 2))
         x_train = (x_train - mean) / std
-#         x_val = (x_val - mean) / std
-        x_test = (x_test - mean) / std
+        x_val = (x_val - mean) / std
         train_ds = dataset_generator(x_train, y_train, args.batch_size)
     else:
         train_ds = tf.data.Dataset.from_tensor_slices((x_train, y_train)).\
             shuffle(train_size).batch(args.batch_size).prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
-    test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).\
+    val_ds = tf.data.Dataset.from_tensor_slices((x_val, y_val)).\
         batch(args.batch_size).prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
+    
+    if args.x_test_path:
+        if augment:
+            x_test = (x_test - mean) / std
+        test_ds = tf.data.Dataset.from_tensor_slices(x_test).\
+            batch(args.batch_size).prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
 
     print("Building model...")
     step_per_epoch = int(len(x_train)/args.batch_size)
     model = Model(input_shape, num_classes, args.model_type, lr_schedule, step_per_epoch)
     
-    print("Training")
-    train_acc, train_l, test_acc, test_l = model.train(args.epoch, train_ds, test_ds)
+    print("Training...")
+    train_acc, train_l, val_acc, val_l = model.train(args.epoch, train_ds, val_ds)
     
     ts = onp.arange(1, args.epoch+1, 1)
-    plot_learning_curve(train_acc, test_acc, ts, "Accuracy", args.dtype)
-#     plot_learning_curve(train_l, test_l, ts, "Loss", args.dtype)
+    plot_learning_curve(train_acc, val_acc, ts, "Accuracy", args.dtype)
+#     plot_learning_curve(train_l, val_l, ts, "Loss", args.dtype)
+
+    if args.x_test_path:
+        import pandas as pd
+        print("Testing...")
+        y_pred = model.inference(test_ds)
+        y_pred = onp.argmax(y_pred, axis=-1)
+        
+        # write output file
+        id = [i for i in range(len(y_pred))]
+        result = pd.DataFrame({'id': id, 'label': y_pred})
+        result.to_csv("y_pred_{:s}.csv".format(args.dataset), index=False)
     print("================== DONE ==================")
     
 if __name__ == "__main__":

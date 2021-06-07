@@ -101,8 +101,8 @@ There are few important arguments:
 - `--dtype`: A string. One of `Clean` or `NTGA`, used for figure's title.
 - `--x_train_path`: A string. Path for poisoned training data. Leave it empty for clean data (mnist or cifar10).
 - `--y_train_path`: A string. Path for training labels. Leave it empty for clean data (mnist or cifar10).
-- `--x_test_path`: A string. Path for testing data.
-- `--y_test_path`: A string. Path for testing labels.
+- `--x_val_path`: A string. Path for validation data.
+- `--y_val_path`: A string. Path for validation labels.
 - `--epoch`: An integer.
 - `--batch_size`: An integer.
 - `--save_path`: A string.
@@ -450,6 +450,19 @@ Please support the project by hitting a star if you find this code or dataset is
 </table>
 
 <!-- ## Competition -->
+<!-- ```bash
+python evaluate.py --model_type fnn --dataset mnist --dtype Clean --x_test_path ./data/x_test_mnist.npy --epoch 5 --save_path ./figure/
+
+python evaluate.py --model_type fnn --dataset mnist --dtype NTGA --x_train_path ./data/x_train_mnist_ntga_cnn_best.npy --y_train_path ./data/y_train_mnist.npy --x_val_path ./data/x_val_mnist.npy --y_val_path ./data/y_val_mnist.npy --x_test_path ./data/x_test_mnist.npy --epoch 5 --save_path ./figure/
+
+python evaluate.py --model_type cnn --dataset cifar10 --dtype Clean --x_test_path ./data/x_test_cifar10.npy --epoch 20 --save_path ./figure/
+
+python evaluate.py --model_type cnn --dataset cifar10 --dtype NTGA --x_train_path ./data/x_train_cifar10_ntga_cnn_best.npy --y_train_path ./data/y_train_cifar10.npy --x_val_path ./data/x_val_cifar10.npy --y_val_path ./data/y_val_cifar10.npy --x_test_path ./data/x_test_cifar10.npy --epoch 20 --save_path ./figure/
+
+python evaluate.py --model_type cnn --dataset imagenet --dtype Clean --x_train_path ./data/x_train_imagenet.npy --y_train_path ./data/y_train_imagenet.npy --x_val_path ./data/x_val_imagenet.npy --y_val_path ./data/y_val_imagenet.npy --x_test_path ./data/x_test_imagenet.npy --epoch 20 --save_path ./figure/
+
+python evaluate.py --model_type cnn --dataset imagenet --dtype Clean --x_train_path ./data/x_train_imagenet_ntga_fnn_best.npy --y_train_path ./data/y_train_imagenet.npy --x_val_path ./data/x_val_imagenet.npy --y_val_path ./data/y_val_imagenet.npy --x_test_path ./data/x_test_imagenet.npy --epoch 20 --save_path ./figure/
+``` -->
 
 ## Citation
 If you find this code or dataset is helpful for your research, please cite our [ICML 2021 paper]().
