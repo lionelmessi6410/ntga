@@ -476,7 +476,7 @@ We launch 3 competitions on Kaggle, where we are interested in learning from *un
 For instance, you can create a submission file by calling:
 ```bash
 python evaluate.py --model_type resnet18 --dataset cifar10 --dtype NTGA \
-	--x_train_path ./data/x_train_cifar10_ntga_cnn_best.npy \
+	--x_train_path ./data/x_train_cifar10_unlearn.npy \
 	--y_train_path ./data/y_train_cifar10.npy \
 	--x_val_path ./data/x_val_cifar10.npy \
 	--y_val_path ./data/y_val_cifar10.npy \
