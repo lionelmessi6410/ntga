@@ -1,4 +1,4 @@
-# Neural Tangent Generalization Attacks (NTGA)
+<!-- # Neural Tangent Generalization Attacks (NTGA)
 [**ICML 2021 Video**]()
 | [**Paper**](http://www.cs.nthu.edu.tw/~shwu/pubs/shwu-icml-21.pdf)
 | [**Install Guide**](#installation)
@@ -498,4 +498,5 @@ If you find this code or dataset is helpful for your research, please cite our [
 	year={2020},
 	organization={PMLR}
 }
-``` -->
+```
+ --> -->
