@@ -1,5 +1,5 @@
 # Neural Tangent Generalization Attacks (NTGA)
-[**ICML 2021 Video**]()
+[**ICML 2021 Video**](https://recorder-v3.slideslive.com/?share=37793&s=8635f4a5-63b3-448e-af09-d44f3891d837)
 | [**Paper**](http://www.cs.nthu.edu.tw/~shwu/pubs/shwu-icml-21.pdf)
 | [**Install Guide**](#installation)
 | [**Quickstart**](#usage)
