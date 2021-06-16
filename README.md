@@ -7,6 +7,9 @@
 | [**Unlearnable Datasets**](#unlearnable-datasets)
 | [**Competitions**](#competitions)
 
+
+![Stars](https://img.shields.io/github/stars/lionelmessi6410/ntga?style=social)
+![Forks](https://img.shields.io/github/forks/lionelmessi6410/ntga?style=social)
 ![Last Commit](https://img.shields.io/github/last-commit/lionelmessi6410/ntga?color=red)
 [![License](https://img.shields.io/github/license/lionelmessi6410/ntga)](https://github.com/lionelmessi6410/ntga/blob/main/LICENSE)
 
