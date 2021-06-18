@@ -1,4 +1,3 @@
-# +
 import jax.numpy as np
 from jax.api import grad, jit, vmap
 from jax import lax

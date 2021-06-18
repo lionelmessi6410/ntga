@@ -1,11 +1,10 @@
-# +
 """
 This code can visualize the perturbation of the poisoned data. 
 Please notice that the order of the clean and poisoned data MUST BE SAME.
 """
 import os
 import argparse
-import numpy as np
+import numpy as onp
 from utils import *
 
 # Plotting
@@ -20,7 +19,7 @@ parser.add_argument("--dataset", required=True, type=str, help="`mnist`, `cifar1
                     available. To use different dataset, please specify the input size in the code directly")
 parser.add_argument("--x_train_path", required=True, type=str, help="path for the clean data")
 parser.add_argument("--x_train_ntga_path", required=True, type=str, help="path for the poisoned data")
-parser.add_argument("--num", default=5, type=str, help="number of visualized data. \
+parser.add_argument("--num", default=5, type=int, help="number of visualized data. \
                     The valid value is 1-5")
 parser.add_argument("--save_path", default="", type=str, help="path to save figures")
 
@@ -43,8 +42,8 @@ elif args.dataset == "imagenet":
 def main():
     # Prepare dataset
     print("Loading dataset...")
-    x_train = np.load(args.x_train_path)
-    x_train_ntga = np.load(args.x_train_ntga_path)
+    x_train = onp.load(args.x_train_path)
+    x_train_ntga = onp.load(args.x_train_ntga_path)
     x_train, x_train_ntga = shaffle(x_train, x_train_ntga)
     
     # Plot visualization
@@ -55,7 +54,7 @@ def main():
     if args.num > 5:
         args.num = 5
         
-    _x_train = np.zeros((args.num*3, x_train.shape[1], x_train.shape[2], x_train.shape[3]))
+    _x_train = onp.zeros((args.num*3, x_train.shape[1], x_train.shape[2], x_train.shape[3]))
     
     # Clean data
     _x_train[:args.num*1] = x_train[:args.num]

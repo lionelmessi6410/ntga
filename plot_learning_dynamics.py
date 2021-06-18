@@ -1,4 +1,3 @@
-# +
 """
 This code is based on Disentangling Trainability and Generalization in Deep Neural Networks (L. Xiao et al. 2020)
 Paper link: https://arxiv.org/pdf/1912.13053.pdf
