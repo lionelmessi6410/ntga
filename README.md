@@ -91,7 +91,7 @@ python evaluate.py --model_type densenet121 --dataset cifar10 --dtype Clean \
 	--batch_size 128 --save_path ./figures/
 ```
 
-This code will also plot the learning curve and save it in `--save_path ./figures/`. The following figures show the results of [DenseNet121](https://arxiv.org/pdf/1608.06993.pdf) trained on the CIFAR-10 dataset. The left figure demonstrates the normal learning curve, where the network is trained on the clean data. On the contrary, the figure on the right-hand side shows the remarkable result of NTGA, where the training accuracy is \~100%, but the model fails to generalize.
+This code will also plot the learning curve and save it in `--save_path ./figures/`. The following figures show the results of [DenseNet121](https://arxiv.org/pdf/1608.06993.pdf) trained on the CIFAR-10 dataset. The left figure demonstrates the normal learning curve, where the network is trained on the clean data, and the test accuracy achieves \~93%. On the contrary, the figure on the right-hand side shows the remarkable result of NTGA, where the training accuracy is \~100%, but test accuracy drops sharply to \~37%, in other word, the model fails to generalize.
 
 <table border=0>
 	<tbody>
